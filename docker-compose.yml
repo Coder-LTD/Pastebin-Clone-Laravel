@@ -1,0 +1,90 @@
+services:
+  # ─── PHP-FPM Application ────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pastebin-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: pastebin
+      DB_USERNAME: pastebin
+      DB_PASSWORD: secret
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CACHE_DRIVER: redis
+      SESSION_DRIVER: redis
+    networks:
+      - pastebin-network
+
+  # ─── Nginx Web Server ───────────────────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: pastebin-nginx
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - pastebin-network
+
+  # ─── MySQL Database ──────────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: pastebin-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootsecret
+      MYSQL_DATABASE: pastebin
+      MYSQL_USER: pastebin
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - pastebin-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "pastebin", "-psecret"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pastebin-network
+
+  # ─── Redis Cache ─────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: pastebin-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - pastebin-redis-data:/data
+    networks:
+      - pastebin-network
+
+# ─── Volumes ──────────────────────────────────────────────────────────
+volumes:
+  pastebin-db-data:
+  pastebin-redis-data:
+
+# ─── Network ──────────────────────────────────────────────────────────
+networks:
+  pastebin-network:
+    driver: bridge

@@ -1,0 +1,168 @@
+/* highlight.js theme — GitHub Dark */
+@import 'highlight.js/styles/github-dark.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-gray-50 text-gray-900;
+    }
+}
+
+@layer components {
+    /* Custom scrollbar for code blocks */
+    .code-block-wrapper {
+        @apply relative;
+    }
+
+    .code-block-wrapper pre {
+        @apply rounded-lg overflow-auto;
+        scrollbar-width: thin;
+        scrollbar-color: #4b5563 #1f2937;
+    }
+
+    .code-block-wrapper pre::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+
+    .code-block-wrapper pre::-webkit-scrollbar-track {
+        background: #1f2937;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .code-block-wrapper pre::-webkit-scrollbar-thumb {
+        background: #4b5563;
+        border-radius: 4px;
+    }
+
+    .code-block-wrapper pre::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+    }
+
+    /* Copy button */
+    .copy-btn {
+        @apply absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200;
+        @apply bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white;
+        @apply focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800;
+    }
+
+    .copy-btn.copied {
+        @apply bg-green-700 text-white;
+    }
+
+    /* Flash messages */
+    .alert {
+        @apply rounded-lg px-4 py-3 text-sm font-medium border;
+    }
+
+    .alert-success {
+        @apply bg-green-50 text-green-800 border-green-200;
+    }
+
+    .alert-error {
+        @apply bg-red-50 text-red-800 border-red-200;
+    }
+
+    .alert-warning {
+        @apply bg-yellow-50 text-yellow-800 border-yellow-200;
+    }
+
+    .alert-info {
+        @apply bg-blue-50 text-blue-800 border-blue-200;
+    }
+
+    /* Paste card */
+    .paste-card {
+        @apply bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-200;
+    }
+
+    /* Badge styles */
+    .badge {
+        @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    }
+
+    .badge-language {
+        @apply bg-indigo-100 text-indigo-700;
+    }
+
+    .badge-public {
+        @apply bg-emerald-100 text-emerald-700;
+    }
+
+    .badge-private {
+        @apply bg-red-100 text-red-700;
+    }
+
+    .badge-unlisted {
+        @apply bg-amber-100 text-amber-700;
+    }
+
+    .badge-expired {
+        @apply bg-gray-100 text-gray-600;
+    }
+
+    /* Form styles */
+    .form-input {
+        @apply block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900;
+        @apply placeholder:text-gray-400;
+        @apply focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none;
+        @apply transition-colors duration-200;
+    }
+
+    .form-textarea {
+        @apply form-input font-mono;
+    }
+
+    .form-select {
+        @apply form-input appearance-none bg-no-repeat;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.75rem center;
+        background-size: 1.25em 1.25em;
+        padding-right: 2.5rem;
+    }
+
+    .form-label {
+        @apply block text-sm font-semibold text-gray-700 mb-1.5;
+    }
+
+    .form-radio-group {
+        @apply flex items-center gap-2;
+    }
+
+    .form-radio {
+        @apply h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500;
+    }
+
+    .form-radio-label {
+        @apply text-sm text-gray-700 cursor-pointer;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all duration-200;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .btn-primary {
+        @apply bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500 shadow-sm;
+    }
+
+    .btn-secondary {
+        @apply bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-indigo-500 shadow-sm;
+    }
+
+    .btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-sm;
+    }
+
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+
+    .btn-lg {
+        @apply px-6 py-3 text-base;
+    }
+}
